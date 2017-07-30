@@ -22,6 +22,7 @@ public enum UntaggedResponseType {
   FLAGS("FLAGS"),
   FETCH("FETCH"),
   SEARCH("SEARCH"),
+  SORT("SORT"),
   INVALID("-----");
 
   private final String prefix;

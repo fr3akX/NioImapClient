@@ -2,6 +2,7 @@ package com.hubspot.imap.client;
 
 import java.util.List;
 
+import com.hubspot.imap.protocol.response.tagged.*;
 import org.slf4j.Logger;
 
 import com.hubspot.imap.ImapChannelAttrs;
@@ -11,13 +12,7 @@ import com.hubspot.imap.protocol.response.ContinuationResponse;
 import com.hubspot.imap.protocol.response.events.ExistsEvent;
 import com.hubspot.imap.protocol.response.events.ExpungeEvent;
 import com.hubspot.imap.protocol.response.events.OpenEvent;
-import com.hubspot.imap.protocol.response.tagged.FetchResponse;
 import com.hubspot.imap.protocol.response.tagged.ListResponse.Builder;
-import com.hubspot.imap.protocol.response.tagged.NoopResponse;
-import com.hubspot.imap.protocol.response.tagged.OpenResponse;
-import com.hubspot.imap.protocol.response.tagged.SearchResponse;
-import com.hubspot.imap.protocol.response.tagged.StreamingFetchResponse;
-import com.hubspot.imap.protocol.response.tagged.TaggedResponse;
 import com.hubspot.imap.protocol.response.untagged.UntaggedIntResponse;
 import com.hubspot.imap.protocol.response.untagged.UntaggedResponseType;
 import com.hubspot.imap.utils.CommandUtils;
@@ -55,6 +50,9 @@ public class ImapCodec extends MessageToMessageCodec<Object, BaseImapCommand> {
       switch (clientState.getCurrentCommand().getCommandType()) {
         case SEARCH:
           taggedResponse = new SearchResponse.Builder().fromResponse(taggedResponse);
+          break;
+        case SORT:
+          taggedResponse = new SortResponse.Builder().fromResponse(taggedResponse);
           break;
         case LIST:
           taggedResponse = new Builder().fromResponse(taggedResponse);

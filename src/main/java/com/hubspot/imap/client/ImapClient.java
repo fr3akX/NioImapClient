@@ -12,6 +12,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
+import com.hubspot.imap.protocol.command.sort.SortCommand;
+import com.hubspot.imap.protocol.command.sort.keys.SortKey;
+import com.hubspot.imap.protocol.response.tagged.*;
 import org.slf4j.Logger;
 
 import com.google.common.base.Preconditions;
@@ -44,13 +47,6 @@ import com.hubspot.imap.protocol.response.ContinuationResponse;
 import com.hubspot.imap.protocol.response.ImapResponse;
 import com.hubspot.imap.protocol.response.ResponseCode;
 import com.hubspot.imap.protocol.response.events.ByeEvent;
-import com.hubspot.imap.protocol.response.tagged.FetchResponse;
-import com.hubspot.imap.protocol.response.tagged.ListResponse;
-import com.hubspot.imap.protocol.response.tagged.NoopResponse;
-import com.hubspot.imap.protocol.response.tagged.OpenResponse;
-import com.hubspot.imap.protocol.response.tagged.SearchResponse;
-import com.hubspot.imap.protocol.response.tagged.StreamingFetchResponse;
-import com.hubspot.imap.protocol.response.tagged.TaggedResponse;
 import com.hubspot.imap.utils.LogUtils;
 import com.hubspot.imap.utils.NettyCompletableFuture;
 
@@ -269,6 +265,10 @@ public class ImapClient extends ChannelDuplexHandler implements AutoCloseable, C
                                                     Optional<Long> stopId,
                                                     MessageFlag... flags) {
     return send(new UidCommand(ImapCommandType.STORE, new SilentStoreCommand(action, startId, stopId.orElse(startId), flags)));
+  }
+
+  public CompletableFuture<SortResponse> uidsort(List<SortKey> sort, SearchKey... keys) {
+    return send(new UidCommand(ImapCommandType.SORT, new SortCommand(sort, keys)));
   }
 
   public CompletableFuture<SearchResponse> uidsearch(SearchKey... keys) {
