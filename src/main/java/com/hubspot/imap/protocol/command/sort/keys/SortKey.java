@@ -1,7 +1,6 @@
 package com.hubspot.imap.protocol.command.sort.keys;
 
 import com.hubspot.imap.protocol.command.atoms.BaseImapAtom;
-import com.hubspot.imap.protocol.command.atoms.ImapAtom;
 
 public class SortKey extends BaseImapAtom {
   private final SortKeyType typ;

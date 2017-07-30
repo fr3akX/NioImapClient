@@ -18,6 +18,7 @@ public class SortCommand extends BaseImapCommand {
   }
 
   private static String keysAsString(List<SortKey> sort, SearchKey[] keys) {
+    //RETURN (PARTIAL 1:500)
     return  "(" + SPACE_JOINER.join(sort) + ") UTF-8 " + SPACE_JOINER.join(Arrays.asList(keys).stream()
                                .map(SearchKey::keyString)
                                .collect(Collectors.toList()));
